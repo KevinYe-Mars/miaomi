@@ -3,4 +3,3 @@ export default {
     //按需加载，跳转到此页面时加载此页面
     component:()=>import('@/views/Movie')//@默认为src下面的
 }
-//12321312
