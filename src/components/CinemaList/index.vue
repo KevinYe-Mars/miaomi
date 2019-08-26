@@ -53,10 +53,10 @@ export default {
         },
         classCard(key){
                         var card = [//过滤改变key值
-                { key : 'allowRefund', value : 'or'},
-                { key : 'endorse', value : 'or'},
-                { key : 'sell', value : 'bl'},
-                { key : 'snack', value : 'bl'}
+                { key : 'allowRefund', value : 'bl'},
+                { key : 'endorse', value : 'bl'},
+                { key : 'sell', value : 'or'},
+                { key : 'snack', value : 'or'}
             ];
             for(var i=0;i<card.length;i++){
                 if(card[i].key === key){
