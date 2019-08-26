@@ -2,9 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './routers'
 import store from './stores'
-
+import axios from 'axios'
+Vue.prototype.axios=axios;
+//vue是一个面向对象的组件库，有自己的原型构造函数，
+//其他组件可以通过this.axios的方式使用
 Vue.config.productionTip = false
-
+//过滤图片地址
+Vue.filter('setWH',(url,arg)=>{
+  return url.replace(/w\.h/,arg)
+})
 new Vue({
   router,
   store,
