@@ -1,8 +1,12 @@
 <template>
-    <div class="movie_body">
+    <div class="movie_body" ref="movie_body">
+        <!-- ref设置可以进行DOM操作 -->
+        <Loading v-if="isLoading" />
+        <Scroller v-else :handleToScroll='handleToScroll' :handleToTouchEnd='handleToTouchEnd'>
             <ul>
+                <li class="pullDown">{{ pullDownMsg }}</li>
                 <li v-for="item in movieList" :key="item.id">
-                    <div class="pic_show"><img :src="item.img |setWH('130.180')"></div>
+                    <div class="pic_show" @tap="handletoDetali"><img :src="item.img |setWH('130.180')"></div>
                     <div class="info_list">
                         <h2> {{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
                         <p>观众评 <span style="color:#f1a712;font-weight:600">{{item.sc}}</span></p>
@@ -14,24 +18,81 @@
                     </div>
                 </li>
             </ul>
-        </div>
+        </Scroller>
+    </div>
 </template>
 <script>
 export default {
     name:'NowPlaying',
     data(){
         return{
-            movieList:[]
+            movieList:[],
+            pullDownMsg:'',
+            isLoading:true,
+            prevCityId:-1
         }
     },
-    mounted(){
-        this.axios.get('/api/movieOnInfoList?cityId=10')
+    activated(){
+        var cityId = this.$store.state.city.id;//状态管理的id
+        if(this.prevCityId == cityId){return;}
+        this.isLoading = true;
+        this.axios.get('/api/movieOnInfoList?cityId='+cityId)
         .then((res)=>{
             if(res.data.msg == 'ok'){
                 this.movieList = res.data.data.movieList;
+                this.isLoading = false;
+                this.prevCityId = cityId;
+                // this.$nextTick(()=>{//保证数据渲染完成后触发这个方法的回调
+                //     var scroll = new BScroll(this.$refs.movie_body,{
+                //         tap : true,//开启点击事件
+                //         probeType: 1,//滚动时派发scroll
+                //     });//这个方法内置两个参数 1，包裹的容器 2，配置对象
+                //     scroll.on('scroll',(pos)=>{
+                //         if(pos.y>30){
+                //             this.pullDownMsg = "正在更新中"
+                //         }
+                //     });
+                //     scroll.on('touchEnd',(pos)=>{
+                //         if(pos.y>30){
+                //             this.axios.get('/api/movieOnInfoList?cityId=10')
+                //             .then((res)=>{
+                //                 if(res.data.msg == 'ok'){
+                //                     this.pullDownMsg = "更新完成"
+                //                     setTimeout(() => {
+                //                         this.movieList = res.data.data.movieList;
+                //                         this.pullDownMsg = ""
+                //                     }, 200);
+                //                 }
+                //             })
+                //         }
+                //     })
+                // });
             }
-            // console.log(this.movieList)
         })
+    },
+    methods:{
+        handletoDetali(){
+        console.log('handletoDetali')
+        },
+        handleToScroll(pos){
+            if(pos.y>30){
+                this.pullDownMsg = "正在更新中"
+            }
+        },
+        handleToTouchEnd(pos){
+            if(pos.y>30){
+                this.axios.get('/api/movieOnInfoList?cityId=10')
+                .then((res)=>{
+                    if(res.data.msg == 'ok'){
+                        this.pullDownMsg = "更新完成"
+                        setTimeout(() => {
+                            this.movieList = res.data.data.movieList;
+                            this.pullDownMsg = ""
+                        }, 200);
+                    }
+                })
+            }
+        }
     }
 }
 </script>
@@ -52,5 +113,5 @@ export default {
 .movie_body .info_list img{ width:50px; position: absolute; right:10px; top: 5px;}
 .movie_body .btn_mall , .movie_body .btn_pre{ width:47px; height:27px; line-height: 28px; text-align: center; background-color: #f03d37; color: #fff; border-radius: 4px; font-size: 12px; cursor: pointer;}
 .movie_body .btn_pre{ background-color: #3c9fe6;}
-
+.movie_body .pullDown{padding: 0;margin: 0;border: 0}
 </style>

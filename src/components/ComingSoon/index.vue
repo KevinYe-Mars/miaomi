@@ -1,5 +1,7 @@
 <template>
   <div class="movie_body">
+    <Loading v-if="isLoading" />
+    <Scroller v-else>
     <ul>
       <li v-for="item in soonData" :key="item.id">
         <div class="pic_show">
@@ -16,6 +18,7 @@
         <div class="btn_pre">预售</div>
       </li>
     </ul>
+    </Scroller>
   </div>
 </template>
 <script>
@@ -23,14 +26,22 @@ export default {
   name: "ComingSoon",
   data() {
     return {
-        soonData:[]
+        soonData:[],
+        isLoading:true,
+        prevCityId:-1
     };
   },
-    mounted(){
-        this.axios.get('/api/movieComingList?cityId=10')
+    activated(){
+        var cityId = this.$store.state.city.id;//状态管理的id
+        if(this.prevCityId == cityId){return;}
+        this.isLoading = true;
+        console.log('666')
+        this.axios.get('/api/movieComingList?cityId='+cityId)
         .then((res)=>{
             if(res.data.msg == 'ok'){
                 this.soonData=res.data.data.comingList;
+                this.isLoading = false
+                this.prevCityId = cityId;
             }
             // console.log(this.soonData)
         })

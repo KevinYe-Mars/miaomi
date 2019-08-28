@@ -4,7 +4,7 @@
         <div id="content">
             <div class="movie_menu">
 				<router-link tag="div" to="/movie/city" class="city_name">
-					<span>大连</span><i class="iconfont icon-lower-triangle"></i>
+					<span>{{$store.state.city.nm}}</span><i class="iconfont icon-lower-triangle"></i>
 				</router-link>
 				<div class="hot_swtich">
 					<router-link tag="div" to="/movie/nowplaying" class="hot_item">正在热映</router-link>
@@ -26,10 +26,34 @@
 <script>
 import Header from '@/components/Header';
 import TabBar from '@/components/TabBar';
+import {MsgBox} from '@/components/JS';//引入的是方法
+import { setTimeout } from 'timers';
 export default {
     name:'Movie',
     components:{
         Header,TabBar
+    },
+    mounted(){
+        setTimeout(()=>{
+            this.axios.get('/api/getLocation').then((res)=>{
+            if(res.data.msg === 'ok'){
+                var nm = res.data.data.nm;
+                var id = res.data.data.id;
+                if(this.$store.state.city.id == id){return}//如果状态管理的id和当前id相同就不要弹窗
+                MsgBox({//调用
+                    title:'定位',
+                    content:nm,
+                    cancel:'取消',
+                    ok:'切换定位',
+                    handleOk(){
+                        window.localStorage.setItem('nowNm',nm)
+                        window.localStorage.setItem('nowId',id)
+                        window.location.reload()//页面实现跳转和刷新
+                    }
+                })
+            }
+        })
+        },2000)
     },
     data(){
         return{

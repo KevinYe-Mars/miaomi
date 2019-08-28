@@ -42,8 +42,9 @@ export default {
     watch:{
         message(newval){
             var that=this;
+            var cityId = this.$store.state.city.id;//状态管理的id
             this.cancelRequest();
-            this.axios.get('/api/searchList?cityId=10&kw='+newval,{
+            this.axios.get('/api/searchList?cityId='+cityId+'&kw='+newval,{
                 cancelToken:new this.axios.CancelToken(function(c) {
                 that.source = c;
             })})
