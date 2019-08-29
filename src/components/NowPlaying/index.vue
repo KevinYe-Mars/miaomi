@@ -6,9 +6,9 @@
             <ul>
                 <li class="pullDown">{{ pullDownMsg }}</li>
                 <li v-for="item in movieList" :key="item.id">
-                    <div class="pic_show" @tap="handletoDetali"><img :src="item.img |setWH('130.180')"></div>
+                    <div class="pic_show" @tap="handletoDetali(item.id)"><img :src="item.img |setWH('130.180')"></div>
                     <div class="info_list">
-                        <h2> {{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
+                        <h2 @tap="handletoDetali(item.id)"> {{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
                         <p>观众评 <span style="color:#f1a712;font-weight:600">{{item.sc}}</span></p>
                         <p>主演: {{item.star}}</p>
                         <p>{{item.showInfo}}</p>
@@ -71,8 +71,8 @@ export default {
         })
     },
     methods:{
-        handletoDetali(){
-        console.log('handletoDetali')
+        handletoDetali(id){
+            this.$router.push('/movie/detail/1/'+id)
         },
         handleToScroll(pos){
             if(pos.y>30){

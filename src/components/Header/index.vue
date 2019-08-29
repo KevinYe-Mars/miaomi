@@ -1,7 +1,11 @@
 <template>
     <div>
         <header id="header"> 
-			<h1>{{title}}</h1>
+			<slot></slot> <h1>{{title}}</h1>
+        <!-- 父组件在子组件中插入内容
+        必须要在子组件中声明slot标签
+        如果子组件模板不包含<slot>插口
+        父组件的内容<p>{{msg}}</p>将会被丢弃 -->
 		</header>
     </div>
 </template>

@@ -5,10 +5,10 @@
     <ul>
       <li v-for="item in soonData" :key="item.id">
         <div class="pic_show">
-          <img  :src="item.img |setWH('130.180')" />
+          <img @tap="handletoDetali(item.id)" :src="item.img |setWH('130.180')" />
         </div>
         <div class="info_list">
-          <h2>{{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
+          <h2 @tap="handletoDetali(item.id)">{{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
           <p>
             <span class="person">{{item.wish}}</span> 人想看
           </p>
@@ -31,11 +31,15 @@ export default {
         prevCityId:-1
     };
   },
+  methods:{
+    handletoDetali(id){
+      this.$router.push('/movie/detail/2/'+id)
+    },
+  },
     activated(){
         var cityId = this.$store.state.city.id;//状态管理的id
         if(this.prevCityId == cityId){return;}
         this.isLoading = true;
-        console.log('666')
         this.axios.get('/api/movieComingList?cityId='+cityId)
         .then((res)=>{
             if(res.data.msg == 'ok'){
