@@ -1,4 +1,6 @@
 module.exports = {
+    //静态资源路径
+    publicPath:'/miaomi',
     devServer : {
         proxy : {
             '/api': {
