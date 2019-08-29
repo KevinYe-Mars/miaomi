@@ -40,7 +40,6 @@
 </template>
 <script>
 import Header from '@/components/Header'
-import { setTimeout } from 'timers';
 export default {
     name:'Detail',
     components:{Header},
