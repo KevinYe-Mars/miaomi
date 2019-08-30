@@ -6,6 +6,7 @@
             <ul>
                 <li class="pullDown">{{ pullDownMsg }}</li>
                 <li v-for="item in movieList" :key="item.id">
+                    <!-- @tap具有点透功能，因为有Scroller的滑动罩层，如用click则无法点击 -->
                     <div class="pic_show" @tap="handletoDetali(item.id)"><img :src="item.img |setWH('130.180')"></div>
                     <div class="info_list">
                         <h2 @tap="handletoDetali(item.id)"> {{item.nm}} <img style="height:14px" v-if="item.version" src="@/assets/max.png"/></h2>
