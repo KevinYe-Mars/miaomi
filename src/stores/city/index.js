@@ -6,6 +6,7 @@ const actions = {
 
 };
 const mutations = {
+    //改变状态管理的值
     CITY_INFO(state, payload){
         state.nm = payload.nm;
         state.id = payload.id;

@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import cinemaRouter from './cinema'//默认找到router文件夹的index.js文件
-import mineRouter from './mine'//默认找到router文件夹的index.js文件
-import movieRouter from './movie'//默认找到router文件夹的index.js文件
-
+import cinemaRouter from './cinema' //默认找到router文件夹的index.js文件
+import mineRouter from './mine'
+import movieRouter from './movie'
+import adminRouter from './admin'
 Vue.use(Router)
 
 export default new Router({
@@ -14,8 +14,9 @@ export default new Router({
     cinemaRouter,
     mineRouter,
     movieRouter,
+    adminRouter,
     {
-      path:'*',
+      path:'/*',
       redirect:'/movie'//路由重定向
     }
   ],

@@ -1,8 +1,10 @@
 <template>
     <div id="main">
         <Header title="我的猫咪" />
-        <Login />
+        <div id="content">
+        <router-view />
         <TabBar />
+        </div>
     </div>
 </template>
 
@@ -13,7 +15,7 @@ import Login from '@/components/Login';
 export default {
     name:'Mine',
     components:{
-        Header,TabBar,Login
+        Header,TabBar
     },
     data(){
         return{
